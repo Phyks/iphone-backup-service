@@ -9,7 +9,7 @@ from typing import AsyncGenerator
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, StreamingResponse
 
-import config
+from iphone_backup_service import config
 
 app = FastAPI(title="iPhone Backup Service", version="1.0.0")
 
@@ -124,9 +124,3 @@ async def backup_device(device_id: DeviceID) -> StreamingResponse:
             yield line
 
     return StreamingResponse(stream(), media_type="text/plain")
-
-
-if __name__ == "__main__":
-    import uvicorn
-
-    uvicorn.run(app, host=config.HOST, port=config.PORT, reload=True)

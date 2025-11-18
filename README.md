@@ -15,7 +15,6 @@ Ensure you have [uv](https://docs.astral.sh/uv/getting-started/) on your system.
 git clone …  # Clone the repository
 cd iphone-backup-service
 uv sync  # Install dependencies, use --all-extras flag if you want the development tools as well
-cp config.py.example config.py && $EDITOR config.py  # Set up your config file and edit according to your needs
 ```
 
 ## Running
@@ -23,8 +22,12 @@ cp config.py.example config.py && $EDITOR config.py  # Set up your config file a
 To run the tool, you can use the built-in `uvicorn` webserver:
 
 ```
-uv run uvicorn main:app
+uv run uvicorn iphone_backup_service.main:app
 ```
+
+Use the following environment variables to customize the tool:
+* `BACKUP_ROOT_PATH=/path/to/folder` to define the root folder in which backups should be stored.
+* `NO_NETWORK_SWITCH=1` to use `idevicebackup2` over USB and not network.
 
 
 ## License
