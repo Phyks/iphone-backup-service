@@ -1,0 +1,12 @@
+from pathlib import Path
+
+# Root path for the backups, backups will be stored in a subfolder named after the iPhone friendly name
+BACKUP_ROOT_PATH = Path("./data/")
+
+# Network switch to use. Defaults to backuping over the network.
+NETWORK_SWITCH = ["-n"]
+# NETWORK_SWITCH = []  # Uncomment for backuping over USB instead.
+
+# FastAPI webserver configuration
+PORT = 8000
+HOST = "0.0.0.0"

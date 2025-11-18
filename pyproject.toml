@@ -1,0 +1,38 @@
+[project]
+name = "iphone-backup-service"
+version = "1.0.0"
+description = "FastAPI service that streams idevicebackup2 backups for connected iPhones."
+authors = [
+    { name = "Phyks (Lucas Verney)", email = "phyks@phyks.me" }
+]
+requires-python = ">=3.11"
+
+# Runtime deps
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn[standard]>=0.30.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.6.0",
+    "mypy>=1.10.0",
+    "pytest>=8.2.0",
+    "httpx>=0.27.0",
+]
+
+# Optional: uv integration section (safe to omit, but nice for clarity)
+[tool.uv]
+package = true
+
+# Optional: Format & lint configs
+[tool.ruff]
+line-length = 100
+
+[lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E501"]  # ignore long lines if preferred
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
