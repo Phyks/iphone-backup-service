@@ -30,6 +30,7 @@ async def run_command(
     try:
         process = await asyncio.create_subprocess_exec(
             *cmd,
+            limit=1024 * 128,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.STDOUT,
             cwd=str(cwd) if cwd else None,
@@ -39,8 +40,14 @@ async def run_command(
 
     assert process.stdout is not None
 
-    async for raw_line in process.stdout:
-        yield raw_line.decode(errors="replace")
+    while True:
+        try:
+            async for raw_line in process.stdout:
+                yield raw_line.decode(errors="replace")
+        except ValueError:
+            continue
+        else:
+            break
 
     rc = await process.wait()
     if rc != 0:
