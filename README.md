@@ -28,6 +28,11 @@ uv run uvicorn iphone_backup_service.main:app
 Use the following environment variables to customize the tool:
 * `BACKUP_ROOT_PATH=/path/to/folder` to define the root folder in which backups should be stored.
 * `NO_NETWORK_SWITCH=1` to use `idevicebackup2` over USB and not network.
+* `HC_ENDPOINT = "https://hc-ping.com/<ping-key>/"` to ping a HealthChecks
+instance on backup finishing/failing. You should create a task in advance in
+your HealthChecks instance with a slug matching the slug of your device name
+(displayed at the beginning of the backup task). Relevant doc:
+https://blog.healthchecks.io/2021/09/new-feature-slug-urls/.
 
 
 ## License
