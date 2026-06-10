@@ -30,6 +30,14 @@ async def run_command(
     :param cwd: The working directory (optional).
     :return: A generator for the subprocess stdout.
     """
+    if config.HC_ENDPOINT:
+        # Ping start healthchecks
+        try:
+            req = requests.get(f"{config.HC_ENDPOINT}/{slug}/start?create=1")
+            req.raise_for_status()
+        except requests.exceptions.RequestException:
+            yield "\n[ERROR] UNABLE TO REACH HEALTHCHECKS INSTANCE"
+
     try:
         process = await asyncio.create_subprocess_exec(
             *cmd,
@@ -57,13 +65,13 @@ async def run_command(
         yield f"\n[ERROR] exited with code {rc}\n"
         if config.HC_ENDPOINT:
             try:
-                req = requests.get(f"{config.HC_ENDPOINT}/{slug}/fail")
+                req = requests.get(f"{config.HC_ENDPOINT}/{slug}/fail?create=1")
                 req.raise_for_status()
             except requests.exceptions.RequestException:
                 yield "\n[ERROR] UNABLE TO REACH HEALTHCHECKS INSTANCE"
     elif config.HC_ENDPOINT:
         try:
-            req = requests.get(f"{config.HC_ENDPOINT}/{slug}")
+            req = requests.get(f"{config.HC_ENDPOINT}/{slug}?create=1")
             req.raise_for_status()
         except requests.exceptions.RequestException:
             yield "\n[ERROR] UNABLE TO REACH HEALTHCHECKS INSTANCE"
